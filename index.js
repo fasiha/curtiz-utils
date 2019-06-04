@@ -215,3 +215,28 @@ function takeWhile(arr, f) {
     return arr.slice(0, n);
 }
 exports.takeWhile = takeWhile;
+/**
+ * Map over an iterator, e.g., `mapIterator(set.values(), x=>x.trim())`.
+ * @param it iterator
+ * @param f mapper
+ */
+function* mapIterator(it, f) {
+    for (let x of it) {
+        yield f(x);
+    }
+}
+exports.mapIterator = mapIterator;
+/**
+ * Flatmap over an iterator with a function that yields iterators.
+ *
+ * E.g., if you have a map whose values are sets:
+ * `flatMapIterator(mapOfSets.values(), set=>set.values())`
+ * @param it iterator
+ * @param f mapper yielding another iterator
+ */
+function* flatMapIterator(it, f) {
+    for (let x of it) {
+        yield* f(x);
+    }
+}
+exports.flatMapIterator = flatMapIterator;

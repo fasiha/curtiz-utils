@@ -190,3 +190,25 @@ export function takeWhile<T>(arr: T[], f: (x: T) => boolean): T[] {
   }
   return arr.slice(0, n);
 }
+
+/**
+ * Map over an iterator, e.g., `mapIterator(set.values(), x=>x.trim())`.
+ * @param it iterator
+ * @param f mapper
+ */
+export function* mapIterator<T, U>(it: IterableIterator<T>|T[], f: (x: T) => U): IterableIterator<U> {
+  for (let x of it) { yield f(x); }
+}
+
+/**
+ * Flatmap over an iterator with a function that yields iterators.
+ *
+ * E.g., if you have a map whose values are sets:
+ * `flatMapIterator(mapOfSets.values(), set=>set.values())`
+ * @param it iterator
+ * @param f mapper yielding another iterator
+ */
+export function*
+    flatMapIterator<T, U>(it: IterableIterator<T>|T[], f: (x: T) => IterableIterator<U>| U[]): IterableIterator<U> {
+  for (let x of it) { yield* f(x); }
+}
