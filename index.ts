@@ -212,3 +212,13 @@ export function*
     flatMapIterator<T, U>(it: IterableIterator<T>|T[], f: (x: T) => IterableIterator<U>| U[]): IterableIterator<U> {
   for (let x of it) { yield* f(x); }
 }
+
+/**
+ * Like `Array.prototype.map` but produces reversed output (using indexing).
+ * @param v Array
+ * @param mapper Function, same as `Array.prototype.map`.
+ */
+function mapRight<T, U>(v: T[], mapper: (x: T, i?: number, v?: T[]) => U): U[] {
+  const N = v.length;
+  return Array.from(Array(N), (_, i) => mapper(v[N - i - 1], N - i - 1, v));
+}

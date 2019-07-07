@@ -240,3 +240,12 @@ function* flatMapIterator(it, f) {
     }
 }
 exports.flatMapIterator = flatMapIterator;
+/**
+ * Like `Array.prototype.map` but produces reversed output (using indexing).
+ * @param v Array
+ * @param mapper Function, same as `Array.prototype.map`.
+ */
+function mapRight(v, mapper) {
+    const N = v.length;
+    return Array.from(Array(N), (_, i) => mapper(v[N - i - 1], N - i - 1, v));
+}
