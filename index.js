@@ -249,3 +249,4 @@ function mapRight(v, mapper) {
     const N = v.length;
     return Array.from(Array(N), (_, i) => mapper(v[N - i - 1], N - i - 1, v));
 }
+exports.mapRight = mapRight;

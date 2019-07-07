@@ -218,7 +218,7 @@ export function*
  * @param v Array
  * @param mapper Function, same as `Array.prototype.map`.
  */
-function mapRight<T, U>(v: T[], mapper: (x: T, i?: number, v?: T[]) => U): U[] {
+export function mapRight<T, U>(v: T[], mapper: (x: T, i?: number, v?: T[]) => U): U[] {
   const N = v.length;
   return Array.from(Array(N), (_, i) => mapper(v[N - i - 1], N - i - 1, v));
 }
