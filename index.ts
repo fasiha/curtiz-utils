@@ -1,3 +1,5 @@
+export * from './kana';
+
 /**
  * Does an input string have any kanji? Applies XRegExp's '\Han' Unicode block test.
  * @param s string to test
