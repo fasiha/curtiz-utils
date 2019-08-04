@@ -254,3 +254,18 @@ function mapRight(v, mapper) {
     return Array.from(Array(N), (_, i) => mapper(v[N - i - 1], N - i - 1, v));
 }
 exports.mapRight = mapRight;
+function groupBy(arr, f) {
+    const ret = new Map();
+    for (const x of arr) {
+        const y = f(x);
+        const hit = ret.get(y);
+        if (hit) {
+            hit.push(x);
+        }
+        else {
+            ret.set(y, [x]);
+        }
+    }
+    return ret;
+}
+exports.groupBy = groupBy;
