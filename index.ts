@@ -216,6 +216,13 @@ export function*
 }
 
 /**
+ * Simple flatmap operator, same arguments as `flatMapIterator` above but returns array
+ */
+export function flatmap<T, U>(it: IterableIterator<T>|T[], f: (x: T) => IterableIterator<U>| U[]): U[] {
+  return Array.from(flatMapIterator(it, f));
+}
+
+/**
  * Like `Array.prototype.map` but produces reversed output (using indexing).
  * @param v Array
  * @param mapper Function, same as `Array.prototype.map`.

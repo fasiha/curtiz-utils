@@ -245,6 +245,13 @@ function* flatMapIterator(it, f) {
 }
 exports.flatMapIterator = flatMapIterator;
 /**
+ * Simple flatmap operator, same arguments as `flatMapIterator` above but returns array
+ */
+function flatmap(it, f) {
+    return Array.from(flatMapIterator(it, f));
+}
+exports.flatmap = flatmap;
+/**
  * Like `Array.prototype.map` but produces reversed output (using indexing).
  * @param v Array
  * @param mapper Function, same as `Array.prototype.map`.
