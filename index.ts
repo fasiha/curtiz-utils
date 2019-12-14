@@ -245,3 +245,65 @@ export function groupBy<T, U>(arr: T[], f: (x: T) => U): Map<U, T[]> {
   }
   return ret;
 }
+
+/**
+ * Bins entries of `it` into bins with maxs `binMaxs` and returns smallest bin with anything in it.
+ *
+ * Assuming N finite entries in `binMaxs`, imagine N+1 bins, where a square bracket implies closed (inclusive) interval
+ * and parens imply open (excluded) interval:
+ *
+ * 1. `(-Infinity, binMaxs[0])`
+ * 2. `[binMaxs[0], binMaxs[1])`
+ * 3. `[binMaxs[1], binMaxs[2])` ...
+ * N+1. `[binMaxs[N-1], Infinity)`
+ *
+ * The the smallest bin (in terms of its start, say) with any items in it will be returned.
+ * @param it
+ * @param binMaxs
+ * @param f
+ */
+export function binLowest<T>(it: IterableIterator<T>|T[], binMaxs: number[], f: (t: T) => number): T[] {
+  binMaxs = binMaxs.slice().sort((a, b) => a - b);
+  if (binMaxs[binMaxs.length - 1] !== Infinity) { binMaxs.push(Infinity); }
+  const hits: T[][] = Array.from(Array(binMaxs.length), _ => []);
+  let hitsIdx = binMaxs.length - 1;
+  for (const x of it) {
+    const y = f(x);
+    if (y < binMaxs[hitsIdx]) {
+      hitsIdx = binMaxs.findIndex(max => y < max);
+      hits[hitsIdx].push(x);
+    }
+  }
+  return hits[hitsIdx];
+}
+
+/**
+ * Returns the lowest `K` entries in iterator/array `it`, with each entry mapped to `f`.
+ * @param it
+ * @param K
+ * @param f
+ */
+export function partialSort<T>(it: IterableIterator<T>|T[], K: number, f: (t: T) => number) {
+  if (it instanceof Array) { it = it.values(); }
+  const ret: ({x: T, y: number})[] = [];
+  if (K <= 0) { return ret; }
+  // fill the bag with the first N items from the iterator
+  for (let i = 0; i < K; i++) {
+    const {value, done} = it.next();
+    ret.push({x: value, y: f(value)});
+    if (done) { return ret; }
+  }
+  // Loop through the rest of the iterator, adding it to the bag and kicking out the previous largest if it's smaller
+  // than the largest
+  const cmp = (a: typeof ret[0], b: typeof ret[0]) => a.y - b.y;
+  ret.sort(cmp);
+  const last = K - 1;
+  for (const x of it) {
+    const y = f(x);
+    if (y < ret[last].y) {
+      ret[last] = {x, y};
+      ret.sort(cmp);
+    }
+  }
+  return ret;
+}
