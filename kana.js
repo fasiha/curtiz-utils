@@ -17,8 +17,8 @@ function kata2hira(s) { return s.split('').map(c => exports.kata2hiraMap.get(c) 
 exports.kata2hira = kata2hira;
 function hira2kata(s) { return s.split('').map(c => exports.hira2kataMap.get(c) || c).join(''); }
 exports.hira2kata = hira2kata;
-const hiraganaRe = /ぁ-ゖ/;
-const katakanaRe = /ァ-ヺ/;
+const hiraganaRe = /[ぁ-ゖ]/;
+const katakanaRe = /[ァ-ヺ]/;
 /**
  * Omits nakaguro (・), chouonpu (ー), and コト (ヿ)!
  */
