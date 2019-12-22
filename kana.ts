@@ -15,6 +15,14 @@ hiragana.split('').forEach((h, i) => {
 export function kata2hira(s: string) { return s.split('').map(c => kata2hiraMap.get(c) || c).join(''); }
 export function hira2kata(s: string) { return s.split('').map(c => hira2kataMap.get(c) || c).join(''); }
 
+const hiraganaRe = /ぁ-ゖ/;
+const katakanaRe = /ァ-ヺ/;
+/**
+ * Omits nakaguro (・), chouonpu (ー), and コト (ヿ)!
+ */
+export function hasKatakana(s: string): boolean { return katakanaRe.test(s); }
+export function hasHiragana(s: string): boolean { return hiraganaRe.test(s); }
+
 /*
 There are other ways of doing this. In Unicode, katakana is 96 codepoints above hiragana. So
 `String.fromCharCode(hiragana.charCodeAt(0) + 96)` will produce katakana. In speed tests though, the above Map-based
