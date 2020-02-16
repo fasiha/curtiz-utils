@@ -1,7 +1,7 @@
 import tape from 'tape';
 const shuffle = require('array-shuffle');
 
-import {binLowest, partialSort} from '.';
+import {binLowest, partialSort, dedupe} from '.';
 
 tape('partialSort', t => {
   const v = 'qwertyuioasdfghjklzxcvbnm'.split('');
@@ -33,3 +33,9 @@ tape('lowestHist', t => {
   }
   t.end();
 });
+
+tape('dedupe', t => {
+  t.deepEqual(dedupe([1, 2, 3, 2, 1], x => x), [1, 2, 3]);
+  t.deepEqual(dedupe([1, -1, 2, -2, -3, -4, 3, 4], x => x ** 2), [1, 2, -3, -4]);
+  t.end();
+})

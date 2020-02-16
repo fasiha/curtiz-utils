@@ -33,3 +33,8 @@ tape_1.default('lowestHist', t => {
     }
     t.end();
 });
+tape_1.default('dedupe', t => {
+    t.deepEqual(_1.dedupe([1, 2, 3, 2, 1], x => x), [1, 2, 3]);
+    t.deepEqual(_1.dedupe([1, -1, 2, -2, -3, -4, 3, 4], x => Math.pow(x, 2)), [1, 2, -3, -4]);
+    t.end();
+});

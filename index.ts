@@ -307,3 +307,23 @@ export function partialSort<T>(it: IterableIterator<T>|T[], K: number, f: (t: T)
   }
   return ret;
 }
+
+/**
+ * Remove duplicates given a function mapping elements to a unique ID
+ *
+ * Examples:
+ * `dedupe([1, 2, 3, 2, 1], x => x)` returns `[1, 2, 3]`
+ * `dedupe([1, -1, 2, -2, -3, -4, 3, 4], x => x**2)` returns `[1, 2, -3, -4]`.
+ */
+export function dedupe<T, U>(v: T[], f: (x: T, i: number, arr: T[]) => U): T[] {
+  const seen: Set<U> = new Set();
+  const ret: T[] = [];
+  for (const [i, x] of v.entries()) {
+    const y = f(x, i, v);
+    if (!seen.has(y)) {
+      ret.push(x);
+      seen.add(y);
+    }
+  }
+  return ret;
+}
