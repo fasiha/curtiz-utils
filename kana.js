@@ -26,6 +26,8 @@ function hasKatakana(s) { return katakanaRe.test(s); }
 exports.hasKatakana = hasKatakana;
 function hasHiragana(s) { return hiraganaRe.test(s); }
 exports.hasHiragana = hasHiragana;
+function hasKana(s) { return /[ぁ-ゖァ-ヺ]/.test(s); }
+exports.hasKana = hasKana;
 /*
 There are other ways of doing this. In Unicode, katakana is 96 codepoints above hiragana. So
 `String.fromCharCode(hiragana.charCodeAt(0) + 96)` will produce katakana. In speed tests though, the above Map-based

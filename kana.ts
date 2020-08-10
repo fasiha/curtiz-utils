@@ -22,6 +22,7 @@ const katakanaRe = /[ァ-ヺ]/;
  */
 export function hasKatakana(s: string): boolean { return katakanaRe.test(s); }
 export function hasHiragana(s: string): boolean { return hiraganaRe.test(s); }
+export function hasKana(s: string): boolean { return /[ぁ-ゖァ-ヺ]/.test(s); }
 
 /*
 There are other ways of doing this. In Unicode, katakana is 96 codepoints above hiragana. So
