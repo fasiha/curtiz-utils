@@ -366,3 +366,19 @@ function dedupe(v, f) {
     return ret;
 }
 exports.dedupe = dedupe;
+function dedupeLimit(v, f, limit) {
+    const seen = new Set();
+    const ret = [];
+    for (const [i, x] of v.entries()) {
+        const y = f(x, i, v);
+        if (!seen.has(y)) {
+            ret.push(x);
+            seen.add(y);
+            if (ret.length === limit) {
+                break;
+            }
+        }
+    }
+    return ret;
+}
+exports.dedupeLimit = dedupeLimit;

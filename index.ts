@@ -327,3 +327,17 @@ export function dedupe<T, U>(v: T[], f: (x: T, i: number, arr: T[]) => U): T[] {
   }
   return ret;
 }
+
+export function dedupeLimit<T, U>(v: T[], f: (x: T, i: number, arr: T[]) => U, limit: number): T[] {
+  const seen: Set<U> = new Set();
+  const ret: T[] = [];
+  for (const [i, x] of v.entries()) {
+    const y = f(x, i, v);
+    if (!seen.has(y)) {
+      ret.push(x);
+      seen.add(y);
+      if (ret.length === limit) { break; }
+    }
+  }
+  return ret;
+}
