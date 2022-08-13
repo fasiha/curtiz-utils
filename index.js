@@ -382,3 +382,14 @@ function dedupeLimit(v, f, limit) {
     return ret;
 }
 exports.dedupeLimit = dedupeLimit;
+function allSubstrings(s) {
+    const slen = s.length;
+    let ret = new Set();
+    for (let start = 0; start < slen; start++) {
+        for (let length = 1; length <= slen - start; length++) {
+            ret.add(s.substr(start, length));
+        }
+    }
+    return ret;
+}
+exports.allSubstrings = allSubstrings;
