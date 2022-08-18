@@ -350,3 +350,39 @@ export function allSubstrings(s: string) {
   }
   return ret;
 }
+
+/**
+ * Given three consecutive substrings (the arguments), return `{left: left2, cloze, right: right2}` where
+ * `left2` and `right2` are as short as possible and `${left2}${cloze}${right2}` is unique in the full string.
+ * @param left left string, possibly empty
+ * @param cloze middle string
+ * @param right right string, possible empty
+ * @throws in the unlikely event that such a return string cannot be build (I cannot think of an example though)
+ */
+export function generateContextClozed(left: string, cloze: string,
+                                      right: string): {left: string; cloze: string; right: string;} {
+  const sentence = left + cloze + right;
+  let leftContext = '';
+  let rightContext = '';
+  let contextLength = 0;
+  while (!appearsExactlyOnce(sentence, leftContext + cloze + rightContext)) {
+    contextLength++;
+    if (contextLength > left.length && contextLength > right.length) {
+      console.error({sentence, left, cloze, right, leftContext, rightContext, contextLength});
+      throw new Error('Ran out of context to build unique cloze');
+    }
+    leftContext = left.slice(-contextLength);
+    rightContext = right.slice(0, contextLength);
+  }
+  return {left: leftContext, cloze, right: rightContext};
+}
+
+/**
+ * Ensure needle is found in haystack only once
+ * @param haystack big string
+ * @param needle little string
+ */
+export function appearsExactlyOnce(haystack: string, needle: string): boolean {
+  const hit = haystack.indexOf(needle);
+  return hit >= 0 && haystack.indexOf(needle, hit + 1) < 0;
+}
