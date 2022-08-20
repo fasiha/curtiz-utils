@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tape tests.js"
+    "test": "tape tests.js",
+    "build":"tsc -p ."
   },
   "keywords": [],
   "author": "Ahmed Fasih",

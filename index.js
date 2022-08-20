@@ -428,3 +428,27 @@ function appearsExactlyOnce(haystack, needle) {
     return hit >= 0 && haystack.indexOf(needle, hit + 1) < 0;
 }
 exports.appearsExactlyOnce = appearsExactlyOnce;
+/**
+ * Find a string when it's exactly some contiguous sub-array
+ *
+ * substringInArray('hi my name is bob'.split(' '), 'hi') // { startIdx: 0, endIdx: 1 }
+ * substringInArray('hi my name is bob'.split(' '), 'himy') // { startIdx: 0, endIdx: 2 }
+ * substringInArray('hi my name is bob'.split(' '), 'my') // { startIdx: 1, endIdx: 2 }
+ * substringInArray('hi my name is bob'.split(' '), 'myname') // { startIdx: 1, endIdx: 3 }
+ * substringInArray('hi my name is bob'.split(' '), 'isbob') // { startIdx: 3, endIdx: 5 }
+ * substringInArray('hi my name is bob'.split(' '), 'bob') // { startIdx: 4, endIdx: 5 }
+ */
+function substringInArray(v, target) {
+    // this is a prefix scan of `v`'s elements' lengths
+    const cumLengths = v.map((s) => s.length).reduce((p, x) => p.concat(x + p[p.length - 1]), [0]);
+    const haystack = v.join("");
+    const match = haystack.indexOf(target);
+    if (match >= 0) {
+        const startIdx = cumLengths.indexOf(match);
+        const endIdx = cumLengths.indexOf(match + target.length);
+        if (startIdx >= 0 && endIdx >= 0) {
+            return { startIdx, endIdx };
+        }
+    }
+}
+exports.substringInArray = substringInArray;
