@@ -1,7 +1,7 @@
 import tape from 'tape';
 const shuffle = require('array-shuffle');
 
-import {binLowest, partialSort, dedupe} from '.';
+import {binLowest, partialSort, dedupe, substringInArray} from '.';
 
 tape('partialSort', t => {
   const v = 'qwertyuioasdfghjklzxcvbnm'.split('');
@@ -37,5 +37,19 @@ tape('lowestHist', t => {
 tape('dedupe', t => {
   t.deepEqual(dedupe([1, 2, 3, 2, 1], x => x), [1, 2, 3]);
   t.deepEqual(dedupe([1, -1, 2, -2, -3, -4, 3, 4], x => x ** 2), [1, 2, -3, -4]);
+  t.end();
+})
+
+tape('substringInArray', t => {
+  t.deepEqual(substringInArray('hi my name is bob'.split(' '), 'hi'), {startIdx: 0, endIdx: 1})
+  t.deepEqual(substringInArray('hi my name is bob'.split(' '), 'himy'), {startIdx: 0, endIdx: 2})
+  t.deepEqual(substringInArray('hi my name is bob'.split(' '), 'my'), {startIdx: 1, endIdx: 2})
+  t.deepEqual(substringInArray('hi my name is bob'.split(' '), 'myname'), {startIdx: 1, endIdx: 3})
+  t.deepEqual(substringInArray('hi my name is bob'.split(' '), 'isbob'), {startIdx: 3, endIdx: 5})
+  t.deepEqual(substringInArray('hi my name is bob'.split(' '), 'bob'), {startIdx: 4, endIdx: 5})
+  t.ok(substringInArray('hi my name is bob'.split(' '), ''))
+  t.equal(substringInArray('hi my name is bob'.split(' '), 'h'), undefined)
+  t.equal(substringInArray('hi my name is bob'.split(' '), 'him'), undefined)
+
   t.end();
 })

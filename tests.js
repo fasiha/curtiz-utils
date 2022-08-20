@@ -38,3 +38,15 @@ tape_1.default('dedupe', t => {
     t.deepEqual(_1.dedupe([1, -1, 2, -2, -3, -4, 3, 4], x => Math.pow(x, 2)), [1, 2, -3, -4]);
     t.end();
 });
+tape_1.default('substringInArray', t => {
+    t.deepEqual(_1.substringInArray('hi my name is bob'.split(' '), 'hi'), { startIdx: 0, endIdx: 1 });
+    t.deepEqual(_1.substringInArray('hi my name is bob'.split(' '), 'himy'), { startIdx: 0, endIdx: 2 });
+    t.deepEqual(_1.substringInArray('hi my name is bob'.split(' '), 'my'), { startIdx: 1, endIdx: 2 });
+    t.deepEqual(_1.substringInArray('hi my name is bob'.split(' '), 'myname'), { startIdx: 1, endIdx: 3 });
+    t.deepEqual(_1.substringInArray('hi my name is bob'.split(' '), 'isbob'), { startIdx: 3, endIdx: 5 });
+    t.deepEqual(_1.substringInArray('hi my name is bob'.split(' '), 'bob'), { startIdx: 4, endIdx: 5 });
+    t.ok(_1.substringInArray('hi my name is bob'.split(' '), ''));
+    t.equal(_1.substringInArray('hi my name is bob'.split(' '), 'h'), undefined);
+    t.equal(_1.substringInArray('hi my name is bob'.split(' '), 'him'), undefined);
+    t.end();
+});
